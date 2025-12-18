@@ -33,13 +33,7 @@ build/
 .vscode/
 /.env
 
-h2DATABASET/
+/h2DATABASET
 
 
 # ============ ARQUIVOS DE AMBIENTE (.env) ============
-.env
-.env.local
-.env.development
-.env.production
-*.env
-.env.*
