@@ -31,9 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+h2DATABASET/
+
 .env
-
-/.h2DATABASET
-
-
 # ============ ARQUIVOS DE AMBIENTE (.env) ============
