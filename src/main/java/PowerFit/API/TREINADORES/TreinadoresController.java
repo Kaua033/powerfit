@@ -26,7 +26,7 @@ public class TreinadoresController {
 @GetMapping("ID/{ID}")
     public TreinadoresModel listarID(@PathVariable Long ID){
  TreinadoresModel TID = treinadoresService.treinadoresModel(ID);
- if (treinadoresService.treinadoresModel(ID) != null){
+ if (treinadoresService.listar() != null){
      return treinadoresService.treinadoresModel(ID);
  }
  return null;

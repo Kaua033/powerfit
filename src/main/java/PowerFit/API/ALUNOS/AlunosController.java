@@ -1,8 +1,6 @@
 package PowerFit.API.ALUNOS;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +18,29 @@ private AlunosService alunosService;
     return alunosService.listar();
 }
 
+
+@GetMapping("ID/{ID}")
+    public AlunosModel listarID(@PathVariable  long ID){
+        AlunosModel V = alunosService.LISTARID(ID);
+        if (alunosService.listar()!= null){
+            return alunosService.LISTARID(ID);
+        }
+return null;
+    }
+
+@DeleteMapping("DELETAR/{ID}")
+public void  DELTAR(@PathVariable Long ID){
+ alunosService.deletar(ID);
+}
+
+
+@PostMapping("criarA")
+public AlunosModel criaçao(@RequestBody AlunosModel alunosModel){
+        return alunosService.CRIAR(alunosModel);
+}
+
+@PutMapping("ATUALIZAR/")
+public  AlunosModel ATUALIZAR(@RequestBody AlunosModel ALUNO, @PathVariable Long ID){
+        return alunosService.ATUALIZAR(ALUNO,ID);
+}
 }

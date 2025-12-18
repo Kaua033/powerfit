@@ -26,4 +26,8 @@ public class AlunosModel {
 @Column(name = "email", unique = true)
     String email;
 
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
 }
