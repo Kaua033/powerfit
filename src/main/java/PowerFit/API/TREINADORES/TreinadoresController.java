@@ -1,5 +1,7 @@
 package PowerFit.API.TREINADORES;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.PanelUI;
@@ -17,35 +19,45 @@ public class TreinadoresController {
 
     //localhost:8080/TREINADORES/listarT
     @GetMapping("listarT")
-    public List<TreinadoresModel> listarT() {
-        return treinadoresService.listar();
-
+    public ResponseEntity<String> listarT() {
+        List<TreinadoresDTO> treinadoresDTOS = treinadoresService.listar();
+        return ResponseEntity.ok(treinadoresDTOS.toString());
     }
     //localhost:8080/TREINADORES/ID/?
     @GetMapping("ID/{ID}")
-    public TreinadoresModel listarID(@PathVariable Long ID) {
-        TreinadoresModel TID = treinadoresService.listarID(ID);
+    public ResponseEntity<?> listarID(@PathVariable Long ID) {
+       TreinadoresDTO treinadoresDTO = treinadoresService.listarID(ID);
+
         if (treinadoresService.listar() != null) {
-            return treinadoresService.listarID(ID);
+            return ResponseEntity.ok("O aluno "+ treinadoresDTO.getNome()  + "Foi encontrado R");
         }
         return null;
     }
     //localhost:8080/TREINADORES/DELETAR/ID
     @DeleteMapping("DELETAR/{ID}")
-    public void Deletar(@PathVariable Long ID){
-        treinadoresService.DELETAR(ID);
+    public ResponseEntity<?>Deletar(@PathVariable Long ID){
+      if (treinadoresService.listarID(ID) != null){
+          treinadoresService.listarID(ID);
+     return  ResponseEntity.ok("Aluno deletado" + ID + "com suscesso");
+      }return null;
     }
     //localhost:8080/TREINADORES/CRIAR
    @PostMapping("CRIAR")
-   public TreinadoresModel Post( @RequestBody TreinadoresModel CRIAR){
-        return treinadoresService.CRiAR(CRIAR);
-   }
+   public ResponseEntity<?> Post( @RequestBody TreinadoresDTO CRIAR){
+        TreinadoresDTO treinadoresDTO =treinadoresService.CRIAR(CRIAR);
+   return ResponseEntity.ok("O aluno foi Criado com suscesso");
+    }
     //localhost:8080/TREINADORES/ATUALIZAR
-    @PutMapping("ATUALIZAR")
-   public  TreinadoresModel ATUALIZAR(@PathVariable Long ID, @RequestBody TreinadoresModel TREINADORESVCT){
-        return treinadoresService.ATUALIZAR(ID,TREINADORESVCT);
-}
 
+    @PutMapping("ATUALIZAR")
+    public  ResponseEntity<?> ATUALIZAR(@PathVariable Long ID, @RequestBody TreinadoresDTO TREINADORESVCT){
+
+    TreinadoresDTO treinadoresDTO = treinadoresService.ATUALIZAR(ID,TREINADORESVCT);
+    if (treinadoresService.listarID(ID) != null){
+        return  ResponseEntity.ok("Aluno atualizado");
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno Nâo encontrado");
+    }
 
 
 

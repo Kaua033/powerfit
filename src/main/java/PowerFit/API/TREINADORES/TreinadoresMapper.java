@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class TreinadoresMapper {
 
 
-public  TreinadoresModel map (TreinadoresDTO treinadoresDTO){
+public static TreinadoresModel map(TreinadoresDTO treinadoresDTO){
     TreinadoresModel treinadoresModel1 = new TreinadoresModel();
   treinadoresModel1.setID(treinadoresDTO.getID());
   treinadoresModel1.setNome(treinadoresDTO.getNome());
@@ -17,7 +17,7 @@ public  TreinadoresModel map (TreinadoresDTO treinadoresDTO){
 
 }
 
-public  TreinadoresDTO map(TreinadoresModel treinadoresModel){
+public static TreinadoresDTO map(TreinadoresModel treinadoresModel){
     TreinadoresDTO treinadoresDTO =new TreinadoresDTO();
      treinadoresDTO.setEmail(treinadoresModel.getEmail());
      treinadoresDTO.setID(treinadoresModel.getID());
