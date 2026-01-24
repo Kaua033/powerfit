@@ -1,5 +1,8 @@
 package PowerFit.API.ALUNOS;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,33 +17,47 @@ private AlunosService alunosService;
     }
 
     @GetMapping ("lista")
-    public List<AlunosModel> listarALunos(){
-    return alunosService.listar();
-}
+    public ResponseEntity<String> listarALunos(){
+      List<AlunosDTO> alunosDTOS =alunosService.listar();
+        if (alunosService.listar() != null){
+            return ResponseEntity.ok(alunosDTOS.toString());
+        }
+        return null;
+    }
 
 
 @GetMapping("ID/{ID}")
-    public AlunosModel listarID(@PathVariable  long ID){
-        AlunosModel V = alunosService.LISTARID(ID);
+    public ResponseEntity<?> alunosID(@PathVariable long ID){
+       AlunosDTO  alunosDTO = alunosService.LISTARID(ID);
         if (alunosService.listar()!= null){
-            return alunosService.LISTARID(ID);
+            return ResponseEntity.ok("Nosso  ALuno " + alunosDTO.getNome());
         }
-return null;
+return  ResponseEntity.notFound().build();
     }
 
 @DeleteMapping("DELETAR/{ID}")
-public void  DELTAR(@PathVariable Long ID){
- alunosService.deletar(ID);
+public ResponseEntity<String>  DELTAR(@PathVariable Long ID){
+if (alunosService.LISTARID(ID) != null){
+    alunosService.LISTARID(ID);
+return ResponseEntity.ok("O aluno " + ID + "Foi deletado com sucesso");
+}
+return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O aluno " + ID + "Nâo fio encontrado");
 }
 
 
 @PostMapping("criarA")
-public AlunosModel criaçao(@RequestBody AlunosModel alunosModel){
-        return alunosService.CRIAR(alunosModel);
-}
+public  ResponseEntity<String> criaçao(@RequestBody AlunosDTO alunosDTO){
+    AlunosDTO alunosDTO1 = alunosService.CRIAR(alunosDTO);
+return ResponseEntity.ok("O aluno " + alunosDTO1.getNome()  + "Foi criado com suscesso");
+    }
 
 @PutMapping("ATUALIZAR/")
-public  AlunosModel ATUALIZAR(@RequestBody AlunosModel ALUNO, @PathVariable Long ID){
-        return alunosService.ATUALIZAR(ALUNO,ID);
+public  ResponseEntity<?> ATUALIZAR(@RequestBody AlunosDTO  ALUNO, @PathVariable Long ID){
+   AlunosDTO alunosDTO = alunosService.ATUALIZAR(ALUNO,ID);
+if (alunosService.LISTARID(ID) != null){
+    return  ResponseEntity.ok(ALUNO);
 }
+return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ALuno Nâo Atualizado");
+
+    }
 }

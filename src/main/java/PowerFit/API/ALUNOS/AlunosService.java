@@ -2,8 +2,10 @@ package PowerFit.API.ALUNOS;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlunosService {
@@ -13,38 +15,37 @@ private ALUNOSRepository alunosRepository;
         this.alunosRepository = alunosRepository;
     }
 
-    public List<AlunosModel> listar (){
-    return alunosRepository.findAll();
-}
+    public List<AlunosDTO> listar (){
+    List<AlunosModel> all =  alunosRepository.findAll();
+  return  all.stream().map(AlunosMapper ::map).collect(Collectors.toList());
+
+    }
 
 
-public  AlunosModel LISTARID(Long ID){
+public  AlunosDTO  LISTARID(Long ID){
     Optional<AlunosModel> LISTAID = alunosRepository.findById(ID);
-    return LISTAID.orElse(null);
-
+    return LISTAID.map(AlunosMapper::map).orElse(null);
 }
 
     public void deletar (Long ID) {
         alunosRepository.deleteById(ID);
     }
 
-    public  void   AlunosModel  (Long ID){
-         alunosRepository.deleteById(ID);
-    }
 
 
-
-public AlunosModel CRIAR(AlunosModel alunosModel){
-        return alunosRepository.save(alunosModel);
+public AlunosDTO CRIAR(AlunosDTO alunosDTO){
+AlunosModel alunosModel = AlunosMapper.map(alunosDTO);
+ alunosModel = alunosRepository.save(alunosModel);
+        return AlunosMapper.map(alunosModel);
 }
 
-public AlunosModel ATUALIZAR(AlunosModel ALUNO, long ID){
-
-
-        if (alunosRepository.existsById(ID)){
-    alunosRepository.existsById(ID);
-       ALUNO.setID(ID);
-    return alunosRepository.save(ALUNO);
+public AlunosDTO ATUALIZAR(AlunosDTO ALUNO, long ID){
+        AlunosModel alunosExiste = (AlunosModel) alunosRepository.findAllById(Collections.singleton(ID));
+        if (alunosExiste != null){
+   AlunosModel atualizado = AlunosMapper.map(ALUNO);
+    atualizado.setID(ID);
+    AlunosModel AlunosSalvo = alunosRepository.save(atualizado);
+            return AlunosMapper.map(AlunosSalvo);
 }
   return  null;
     }
