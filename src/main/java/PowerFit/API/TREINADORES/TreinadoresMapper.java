@@ -1,5 +1,6 @@
 package PowerFit.API.TREINADORES;
 
+import PowerFit.API.TREINOS.TreinosModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,4 +29,7 @@ public static TreinadoresDTO map(TreinadoresModel treinadoresModel){
 }
 
 
+    public static Object map(TreinosModel treinosModel) {
+        return null;
+    }
 }

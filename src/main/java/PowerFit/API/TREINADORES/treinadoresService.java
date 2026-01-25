@@ -50,6 +50,7 @@ public  TreinadoresDTO ATUALIZAR(Long ID,TreinadoresDTO ATUALIZALUNO){
        TreinadoresModel treinadoresModelAT = TreinadoresMapper.map(ATUALIZALUNO);
        treinadoresModelAT.setID(ID);
     TreinadoresModel ATUALIZADO = treinadoresRepository.save(treinadoresModelAT);
+  return TreinadoresMapper.map(ATUALIZADO);
     }
 return  null;
     }

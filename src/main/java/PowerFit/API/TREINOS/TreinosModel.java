@@ -19,4 +19,9 @@ public class TreinosModel {
     Long ID;
     @Column(name = "nome")
     String nome;
+
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
   }

@@ -9,7 +9,7 @@ public class TreinosDTO {
 
 
    private  Long ID;
- private    String nome;
+ private    String Nome;
 
     public Long getID() {
         return ID;
@@ -19,11 +19,11 @@ public class TreinosDTO {
         this.ID = ID;
     }
 
-    public String getNome() {
-        return nome;
+    public  String getNome() {
+        return Nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.Nome = Nome;
     }
 }

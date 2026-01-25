@@ -1,8 +1,12 @@
 package PowerFit.API.TREINOS;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("TREINOS")
@@ -13,26 +17,45 @@ private  TreinosService treinosService;
         this.treinosService = treinosService;
     }
 @GetMapping("lista")
-    public List<TreinosModel>LISTA(){
-        return treinosService.listar();
-}
-@GetMapping("listarID/{ID}")
-    public TreinosModel ID(@PathVariable Long ID){
-        return treinosService.LISTARID(ID);
-}
+    public ResponseEntity<String>LISTA() {
+        List<TreinosDTO> treinosDTOS = Collections.singletonList(treinosService.listar());
+      if (treinosService.listar() != null){
+          return ResponseEntity.ok("Aluno listado");
+      }
+    return null;
+    }
 
-@DeleteMapping("DELETAR")
-public void deletar(@PathVariable Long ID) {
-        treinosService.DELETAR(ID);
-}
+
+
+@GetMapping("listarID/{ID}")
+    public  ResponseEntity<?> ID(@PathVariable Long ID){
+        TreinosDTO treinosDTO = treinosService.LISTARID(ID);
+        return ResponseEntity.ok("Aluno Encontrado " + treinosDTO.getID());
+    }
+
+
+
+@DeleteMapping("DELETAR/{ID}")
+public ResponseEntity<?> deletar(@PathVariable Long ID) {
+    if (treinosService.LISTARID(ID) != null){
+        treinosService.LISTARID(ID);
+        return ResponseEntity.ok("Aluno Deletado com sucesso");
+    }
+    return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 
 @PostMapping("CRIAR")
-public  TreinosModel criar(@RequestBody TreinosModel CRIAR){
-        return treinosService.criar(CRIAR);
-}
+public ResponseEntity <String> criar(@RequestBody TreinosDTO CRIAR){
+    Optional<TreinosDTO>  treinosDTO = Optional.ofNullable(treinosService.criar(CRIAR));
+return  ResponseEntity.ok("Alunos criado ");
+    }
+
 
 @PutMapping("ATUALIZAR")
-public TreinosModel ATUALIZAR(@PathVariable Long ID, @RequestBody TreinosModel treinosModelVR){
-        return treinosService.ATUALIZAR(ID,treinosModelVR);
+public ResponseEntity<String> ATUALIZAR(@PathVariable Long ID, @RequestBody TreinosDTO treinosModelVR){
+        TreinosDTO treinosDTO = treinosService.ATUALIZAR(ID,treinosModelVR);
+
+        return ResponseEntity.ok("Aluno Atualizado");
 }
 }

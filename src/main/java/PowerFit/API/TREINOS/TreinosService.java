@@ -1,10 +1,13 @@
 package PowerFit.API.TREINOS;
 
+import PowerFit.API.TREINADORES.TreinadoresMapper;
 import PowerFit.API.TREINADORES.TreinadoresModel;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TreinosService {
@@ -15,12 +18,20 @@ private  TreinosRepository treinosRepository;
         this.treinosRepository = treinosRepository;
     }
 
-public  List<TreinosModel>listar(){
-        return treinosRepository.findAll();
-}
- public  TreinosModel  LISTARID(Long ID){
+public  TreinosDTO listar(){
+        List<TreinosModel> treinosModels = treinosRepository.findAll();
+    return (TreinosDTO) treinosModels.stream().map(TreinadoresMapper :: map) .collect(Collectors.toList());
+
+    }
+
+
+
+ public  TreinosDTO  LISTARID(Long ID){
      Optional<TreinosModel>  VARIAVEL = treinosRepository.findById(ID);
-     return VARIAVEL.orElse(null);
+   if (treinosRepository.findAllById(Collections.singleton(ID)) != null){
+       return (TreinosDTO) VARIAVEL.map( TreinadoresMapper ::map).orElse(null);
+   }
+return null;
  }
 
     public  void  DELETAR(Long ID){
@@ -29,15 +40,21 @@ public  List<TreinosModel>listar(){
     }
 
 
-    public TreinosModel criar( TreinosModel  CRIARV){
-        return treinosRepository.save(CRIARV);
+    public TreinosDTO criar( TreinosDTO  CRIARV){
+       TreinosModel treinosModel =TreinosMapper.map(CRIARV);
+        treinosModel = treinosRepository.save(treinosModel);
+       return TreinosMapper.map(treinosModel);
+
     }
 
 
-    public TreinosModel ATUALIZAR(Long ID,TreinosModel ATUALIZARVC){
+    public TreinosDTO ATUALIZAR(Long ID, TreinosDTO ATUALIZARVC){
+        Optional<TreinosModel> treinosModel = treinosRepository.findById(ID);
         if (treinosRepository.existsById(ID)) {
-            ATUALIZARVC.setID(ID);
-            return treinosRepository.save(ATUALIZARVC);
+            TreinosModel treinosModelV1 = TreinosMapper.map(ATUALIZARVC);
+            treinosModelV1.setID(ID);
+      TreinosModel Atualizado = treinosRepository.save(treinosModelV1);
+        return TreinosMapper.map(Atualizado);
         }
         return  null;
     }
