@@ -55,7 +55,6 @@ return  ResponseEntity.ok("Alunos criado ");
 @PutMapping("ATUALIZAR")
 public ResponseEntity<String> ATUALIZAR(@PathVariable Long ID, @RequestBody TreinosDTO treinosModelVR){
         TreinosDTO treinosDTO = treinosService.ATUALIZAR(ID,treinosModelVR);
-
         return ResponseEntity.ok("Aluno Atualizado");
 }
 }

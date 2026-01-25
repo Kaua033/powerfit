@@ -17,10 +17,10 @@ private AlunosService alunosService;
     }
 
     @GetMapping ("lista")
-    public ResponseEntity<String> listarALunos(){
+    public ResponseEntity<?> listarALunos(){
       List<AlunosDTO> alunosDTOS =alunosService.listar();
         if (alunosService.listar() != null){
-            return ResponseEntity.ok(alunosDTOS.toString());
+            return ResponseEntity.ok(alunosDTOS);
         }
         return null;
     }
@@ -51,7 +51,7 @@ public  ResponseEntity<String> criaçao(@RequestBody AlunosDTO alunosDTO){
 return ResponseEntity.ok("O aluno " + alunosDTO1.getNome()  + "Foi criado com suscesso");
     }
 
-@PutMapping("ATUALIZAR/")
+@PutMapping("ATUALIZAR")
 public  ResponseEntity<?> ATUALIZAR(@RequestBody AlunosDTO  ALUNO, @PathVariable Long ID){
    AlunosDTO alunosDTO = alunosService.ATUALIZAR(ALUNO,ID);
 if (alunosService.LISTARID(ID) != null){

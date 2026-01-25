@@ -19,9 +19,9 @@ public class TreinadoresController {
 
     //localhost:8080/TREINADORES/listarT
     @GetMapping("listarT")
-    public ResponseEntity<String> listarT() {
+    public ResponseEntity<?> listarT() {
         List<TreinadoresDTO> treinadoresDTOS = treinadoresService.listar();
-        return ResponseEntity.ok(treinadoresDTOS.toString());
+        return ResponseEntity.ok(treinadoresDTOS);
     }
     //localhost:8080/TREINADORES/ID/?
     @GetMapping("ID/{ID}")
