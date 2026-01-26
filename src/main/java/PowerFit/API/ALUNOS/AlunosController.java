@@ -19,7 +19,8 @@ private AlunosService alunosService;
     @GetMapping ("lista")
     public ResponseEntity<?> listarALunos(){
       List<AlunosDTO> alunosDTOS =alunosService.listar();
-        if (alunosService.listar() != null){
+        if ( alunosDTOS != null){
+            alunosService.listar();
             return ResponseEntity.ok(alunosDTOS);
         }
         return null;
@@ -29,7 +30,8 @@ private AlunosService alunosService;
 @GetMapping("ID/{ID}")
     public ResponseEntity<?> alunosID(@PathVariable long ID){
        AlunosDTO  alunosDTO = alunosService.LISTARID(ID);
-        if (alunosService.listar()!= null){
+        if (alunosDTO != null){
+           alunosService.LISTARID(ID);
             return ResponseEntity.ok("Nosso  ALuno " + alunosDTO.getNome());
         }
 return  ResponseEntity.notFound().build();
@@ -38,26 +40,23 @@ return  ResponseEntity.notFound().build();
 @DeleteMapping("DELETAR/{ID}")
 public ResponseEntity<String>  DELTAR(@PathVariable Long ID){
 if (alunosService.LISTARID(ID) != null){
-    alunosService.LISTARID(ID);
-return ResponseEntity.ok("O aluno " + ID + "Foi deletado com sucesso");
+    alunosService.deletar(ID);
+             return  ResponseEntity.ok("O aluno " + ID +  " deletado com sucesso");
 }
 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O aluno " + ID + "Nâo fio encontrado");
 }
 
 
 @PostMapping("criarA")
-public  ResponseEntity<String> criaçao(@RequestBody AlunosDTO alunosDTO){
+public  ResponseEntity<?> criaçao(@RequestBody AlunosDTO alunosDTO){
     AlunosDTO alunosDTO1 = alunosService.CRIAR(alunosDTO);
-return ResponseEntity.ok("O aluno " + alunosDTO1.getNome()  + "Foi criado com suscesso");
+return ResponseEntity.status(HttpStatus.CREATED).body("Aluno criado:  " + alunosDTO1.getNome());
     }
 
-@PutMapping("ATUALIZAR")
+@PutMapping("ATUALIZAR/{ID}")
 public  ResponseEntity<?> ATUALIZAR(@RequestBody AlunosDTO  ALUNO, @PathVariable Long ID){
    AlunosDTO alunosDTO = alunosService.ATUALIZAR(ALUNO,ID);
-if (alunosService.LISTARID(ID) != null){
-    return  ResponseEntity.ok(ALUNO);
-}
-return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ALuno Nâo Atualizado");
 
-    }
+    return ResponseEntity.ok("Aluno Atualizado" + alunosDTO.getNome());
+}
 }

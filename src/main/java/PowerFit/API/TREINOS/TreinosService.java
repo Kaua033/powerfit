@@ -1,42 +1,40 @@
 package PowerFit.API.TREINOS;
 
 import PowerFit.API.TREINADORES.TreinadoresMapper;
-import PowerFit.API.TREINADORES.TreinadoresModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class TreinosService {
-
+    @Autowired
 private  TreinosRepository treinosRepository;
 
     public TreinosService(TreinosRepository treinosRepository) {
         this.treinosRepository = treinosRepository;
     }
 
-public  TreinosDTO listar(){
+public List<TreinosDTO> listar(){
         List<TreinosModel> treinosModels = treinosRepository.findAll();
-    return (TreinosDTO) treinosModels.stream().map(TreinadoresMapper :: map) .collect(Collectors.toList());
+    return  treinosModels.stream().map(TreinosMapper::map).collect(Collectors.toList( ));
 
-    }
+}
 
 
 
  public  TreinosDTO  LISTARID(Long ID){
      Optional<TreinosModel>  VARIAVEL = treinosRepository.findById(ID);
-   if (treinosRepository.findAllById(Collections.singleton(ID)) != null){
+   if (treinosRepository.findById(ID) != null){
        return (TreinosDTO) VARIAVEL.map( TreinadoresMapper ::map).orElse(null);
    }
 return null;
  }
 
-    public  void  DELETAR(Long ID){
-      treinosRepository.deleteById(ID);
-
+    public void DELETAR(Long ID){
+        treinosRepository.deleteById(ID);
     }
 
 

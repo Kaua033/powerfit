@@ -1,5 +1,6 @@
 package PowerFit.API.TREINADORES;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @Service
 public class treinadoresService {
 
-
+    @Autowired
     private TreinadoresRepository treinadoresRepository;
 
     public treinadoresService(TreinadoresRepository treinadoresRepository) {
@@ -45,7 +46,7 @@ TreinadoresModel treinadoresModel = TreinadoresMapper.map(CRIARDTO);
 
 public  TreinadoresDTO ATUALIZAR(Long ID,TreinadoresDTO ATUALIZALUNO){
         // treinadoresRepository.save(Long ID, TreinadoresModel ATUALIZARVC);
-    TreinadoresModel treinadoresAtualizado = (TreinadoresModel) treinadoresRepository.findAllById(Collections.singleton(ID));
+    Optional<TreinadoresModel> treinadoresAtualizado = treinadoresRepository.findById(ID);
     if (treinadoresAtualizado != null) {
        TreinadoresModel treinadoresModelAT = TreinadoresMapper.map(ATUALIZALUNO);
        treinadoresModelAT.setID(ID);

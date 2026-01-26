@@ -1,16 +1,18 @@
 package PowerFit.API.ALUNOS;
 
+import PowerFit.API.TREINADORES.TreinadoresModel;
+import PowerFit.API.TREINOS.TreinosModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 @Service
 public class AlunosService {
 private ALUNOSRepository alunosRepository;
-
+    @Autowired
     public AlunosService(ALUNOSRepository alunosRepository) {
         this.alunosRepository = alunosRepository;
     }
@@ -40,7 +42,7 @@ AlunosModel alunosModel = AlunosMapper.map(alunosDTO);
 }
 
 public AlunosDTO ATUALIZAR(AlunosDTO ALUNO, long ID){
-        AlunosModel alunosExiste = (AlunosModel) alunosRepository.findAllById(Collections.singleton(ID));
+    Optional<AlunosModel> alunosExiste =alunosRepository.findById(ID);
         if (alunosExiste != null){
    AlunosModel atualizado = AlunosMapper.map(ALUNO);
     atualizado.setID(ID);
