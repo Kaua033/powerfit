@@ -19,11 +19,11 @@ public class TreinosDTO {
         this.ID = ID;
     }
 
-    public  String getNome() {
+    public String getNome() {
         return Nome;
     }
 
     public void setNome(String nome) {
-        this.Nome = Nome;
+        Nome = nome;
     }
 }

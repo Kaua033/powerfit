@@ -20,8 +20,19 @@ public class TreinosModel {
     @Column(name = "nome")
     String nome;
 
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
-  }
+}

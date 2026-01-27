@@ -27,8 +27,7 @@ private  TreinosService treinosService;
     public  ResponseEntity<?> ID(@PathVariable Long ID){
       TreinosDTO  treinosDTO = treinosService.LISTARID(ID);
        if (treinosDTO != null){
-           treinosService.LISTARID(ID);
-           return  ResponseEntity.ok("treino encontrado" + treinosDTO.getNome());
+           return  ResponseEntity.ok(treinosDTO);
        }
        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nao encontrado");
     }
@@ -36,8 +35,7 @@ private  TreinosService treinosService;
 
 
 @DeleteMapping("DELETAR/{ID}")
-public ResponseEntity<String> deletar(@PathVariable Long ID) {
-
+public ResponseEntity<?> deletar(@PathVariable Long ID) {
         if (treinosService.LISTARID(ID) != null){
         treinosService.DELETAR(ID);
         return ResponseEntity.ok("Aluno Deletado com sucesso" + ID);
@@ -47,15 +45,15 @@ public ResponseEntity<String> deletar(@PathVariable Long ID) {
 
 
 @PostMapping("CRIAR")
-public ResponseEntity <String> criar(@RequestBody TreinosDTO CRIAR){
-    Optional<TreinosDTO>  treinosDTO = Optional.ofNullable(treinosService.criar(CRIAR));
-return  ResponseEntity.ok("Alunos criado ");
+public ResponseEntity <?> criar(@RequestBody TreinosDTO CRIAR){
+    TreinosDTO  treinosDTO =treinosService.criar(CRIAR);
+return  ResponseEntity.ok("Treino criado " + treinosDTO.getNome());
     }
 
 
-@PutMapping("ATUALIZAR")
-public ResponseEntity<String> ATUALIZAR(@PathVariable Long ID, @RequestBody TreinosDTO treinosModelVR){
+@PutMapping("ATUALIZAR/{ID}")
+public ResponseEntity<?> ATUALIZAR(@PathVariable Long ID, @RequestBody TreinosDTO treinosModelVR){
         TreinosDTO treinosDTO = treinosService.ATUALIZAR(ID,treinosModelVR);
-        return ResponseEntity.ok("Aluno Atualizado");
+        return ResponseEntity.ok("Treino Atualizado");
 }
 }

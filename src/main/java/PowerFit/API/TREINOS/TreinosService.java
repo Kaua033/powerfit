@@ -27,11 +27,8 @@ public List<TreinosDTO> listar(){
 
  public  TreinosDTO  LISTARID(Long ID){
      Optional<TreinosModel>  VARIAVEL = treinosRepository.findById(ID);
-   if (treinosRepository.findById(ID) != null){
-       return (TreinosDTO) VARIAVEL.map( TreinadoresMapper ::map).orElse(null);
-   }
-return null;
- }
+    return VARIAVEL.map(TreinosMapper::map).orElse(null);
+    }
 
     public void DELETAR(Long ID){
         treinosRepository.deleteById(ID);
